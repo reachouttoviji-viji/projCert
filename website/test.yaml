@@ -7,11 +7,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my--php-app
+      app: my-php-app
   template:
     metadata:
       labels:
-        app: my--php-app
+        app: my-php-app
     spec:
       containers:
       - name: my-container
