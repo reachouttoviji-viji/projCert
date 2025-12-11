@@ -14,7 +14,7 @@ pipeline {
         stage('Deploy Container'){
             steps {
                 sh '''
-                docker ps -q --filter "name=php-webapp" | xargs -r docker stop docker ps -aq --filter "name=php-webapp" | xargs -r docker rm docker run -d --name php-webapp -p 8082:80 php-webapp:latest
+                docker ps -q --filter "name=php-webapp" | xargs -r docker stop docker ps -aq --filter "name=php-webapp" | xargs -r docker rm docker run -d --name php-webapp -p 8085:80 php-webapp:latest
                 '''
             }
         }
