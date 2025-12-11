@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Docker Image') {
             steps {
-                sh 'sudo build -t php-webapp:latest'
+                sh 'sudo build -t php-webapp:latest -f /home/labuser/demo/projCert/Dockerfile /home/labuser/demo/projCert'
             }
         }
         stage('Deploy Container'){
