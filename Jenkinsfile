@@ -11,12 +11,17 @@ pipeline {
                 sh 'sudo apt-get update && sudo apt-get install -y docker.io'
             }
         }
+        stage('Docker Image') {
+            steps {
+                sh 'sudo build -t php-webapp:latest'
+            }
+        }
         stage('Deploy Container'){
             steps {
                 sh '''
                 sudo docker ps -q --filter "name=php-webapp" | xargs -r sudo docker stop
                 sudo docker ps -aq --filter "name=php-webapp" | xargs -r sudo docker rm
-                sudo docker run -d --name php-webapp -p 8085:80 php-webapp:latest
+                sudo docker run -d --name php-webapp -p 8082:80 php-webapp:latest
                 '''
             }
         }
@@ -25,7 +30,8 @@ pipeline {
         failure {
             echo 'Build failed! Cleaning up containers...'
             sh '''
-            docker ps -q --filter "name=php-webapp" | xargs -r docker stop docker ps -aq --filter "name=php-webapp" | xargs -r docker rm
+            sudo docker ps -q --filter "name=php-webapp" | xargs -r sudo docker stop
+            sudo docker ps -aq --filter "name=php-webapp" | xargs -r sudo docker rm
             '''
         }
     }
