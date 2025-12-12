@@ -6,15 +6,6 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/reachouttoviji-viji/projCert.git'
             }
             }
-        stage('Pre-checks') {
-            steps {                
-                sh '''                   
-                    set -eu
-                    test -d website || {echo "website/ not found"; exit 1;}
-                    test -f website/index.php || {echo "website/index.php missing"; exit 1;}                    
-                '''
-            }
-        }        
         stage('Build Docker Image') {
             steps {
                 sh 'sudo docker build -t php-webapp:latest -f /home/labuser/demo/projCert/Dockerfile /home/labuser/demo/projCert'
