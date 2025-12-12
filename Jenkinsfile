@@ -10,8 +10,9 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'sudo_pass', variable: 'SUDO_PASS')]){
                 sh '''
-                set -e
+                set -euo pipefail
                 export DEBIAN_FRONTEND=noninteractive
+                printf "%s\n" "$SUDO_PASS" | sudo -S -v
                 printf "%s\n" "$SUDO_PASS" | sudo -S apt-get update -y
                 echo "$SUDO_PASS" | sudo -S apt-get install -y docker.io git curl
                 echo "$SUDO_PASS" | sudo -S systemtct enable docker
