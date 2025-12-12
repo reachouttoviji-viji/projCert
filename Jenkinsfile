@@ -12,7 +12,7 @@ pipeline {
                 sh '''
                 set -e
                 export DEBIAN_FRONTEND=noninteractive
-                echo "$SUDO_PASS" | sudo -S apt-get update -y
+                printf "%s\n" "$SUDO_PASS" | sudo -S apt-get update -y
                 echo "$SUDO_PASS" | sudo -S apt-get install -y docker.io git curl
                 echo "$SUDO_PASS" | sudo -S systemtct enable docker
                 echo "$SUDO_PASS" | sudo -S systemtct start docker
