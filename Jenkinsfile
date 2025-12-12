@@ -8,12 +8,14 @@ pipeline {
             }
         stage('Install Docker') {
             steps {
+                withCredentials([string(credentialsId: 'sudo_pass', variable: 'SUDO_PASS')]){
                 sh '''
                 export DEBIAN_FRONTEND=noninteractive
-                sudo apt-get update -y
-                sudo apt-get install -y docker.io'
+                sudo -S apt-get update -y
+                sudo -S apt-get install -y docker.io git curl
                 '''
             }
+        }
         }
         stage('Docker Image') {
             steps {
