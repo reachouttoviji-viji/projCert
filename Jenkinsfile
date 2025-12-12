@@ -6,24 +6,17 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/reachouttoviji-viji/projCert.git'
             }
             }
-        stage('Install Docker') {
-            steps {
-                withCredentials([string(credentialsId: 'sudo_pass', variable: 'SUDO_PASS')]){
-                sh '''
-                    bash -lc '
-                    set -euo pipefail
-                    export DEBIAN_FRONTEND=noninteractive
-                    printf "%s\n" "$SUDO_PASS" | sudo -S -v
-                    printf "%s\n" "$SUDO_PASS" | sudo -S apt-get update -y
-                    echo "$SUDO_PASS" | sudo -S apt-get install -y docker.io git curl
-                    echo "$SUDO_PASS" | sudo -S systemtct enable docker
-                    echo "$SUDO_PASS" | sudo -S systemtct start docker
-                '
+        stage('Pre-checks') {
+            steps {                
+                sh '''                   
+                    set -eu
+                    test -d website || {echo "website/ not found"; exit 1;}
+                    test -f website/index.php || {echo "website/index.php missing"; exit 1;}                    
                 '''
             }
         }
         }
-        stage('Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 sh 'sudo docker build -t php-webapp:latest -f /home/labuser/demo/projCert/Dockerfile /home/labuser/demo/projCert'
             }
