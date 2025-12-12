@@ -14,9 +14,9 @@ pipeline {
         stage('Deploy Container'){
             steps {
                 sh '''
-                sudo docker ps -q --filter "name=php-webapp" | xargs -r sudo docker stop
-                sudo docker ps -aq --filter "name=php-webapp" | xargs -r sudo docker rm
-                sudo docker run -d --name php-webapp -p 8082:80 php-webapp:latest
+                docker ps -q --filter "name=php-webapp" | xargs -r docker stop
+                docker ps -aq --filter "name=php-webapp" | xargs -r docker rm
+                docker run -d --name php-webapp -p 8082:80 php-webapp:latest
                 '''
             }
         }
@@ -25,8 +25,8 @@ pipeline {
         failure {
             echo 'Build failed! Cleaning up containers...'
             sh '''
-            sudo docker ps -q --filter "name=php-webapp" | xargs -r sudo docker stop
-            sudo docker ps -aq --filter "name=php-webapp" | xargs -r sudo docker rm
+            docker ps -q --filter "name=php-webapp" | xargs -r docker stop
+            docker ps -aq --filter "name=php-webapp" | xargs -r docker rm
             '''
         }
     }
