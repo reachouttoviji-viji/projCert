@@ -14,8 +14,7 @@ pipeline {
                     test -f website/index.php || {echo "website/index.php missing"; exit 1;}                    
                 '''
             }
-        }
-        }
+        }        
         stage('Build Docker Image') {
             steps {
                 sh 'sudo docker build -t php-webapp:latest -f /home/labuser/demo/projCert/Dockerfile /home/labuser/demo/projCert'
@@ -40,4 +39,4 @@ pipeline {
             '''
         }
     }
-}
+    }
